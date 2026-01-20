@@ -1,8 +1,8 @@
 # syntax=docker/dockerfile:1
 
-ARG GO_VERSION=1.23
-ARG ALPINE_VERSION=3.22
-ARG XX_VERSION=1.7.0
+ARG GO_VERSION=1.25
+ARG ALPINE_VERSION=3.23
+ARG XX_VERSION=1.9.0
 
 ARG QEMU_VERSION=HEAD
 ARG QEMU_REPO=https://github.com/qemu/qemu
@@ -76,8 +76,9 @@ RUN set -e; \
 
 FROM base AS build
 ARG TARGETPLATFORM
+ARG QEMU_VERSION
 # QEMU_TARGETS sets architectures that emulators are built for (default all)
-ARG QEMU_VERSION QEMU_TARGETS
+ARG QEMU_TARGETS
 ENV AR=llvm-ar STRIP=llvm-strip
 RUN --mount=target=.,from=src,src=/src/qemu,rw --mount=target=./install-scripts,src=scripts \
   echo ${TARGETPLATFORM} && \
