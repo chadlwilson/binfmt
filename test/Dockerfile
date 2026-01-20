@@ -1,11 +1,15 @@
-#syntax=docker/dockerfile:1-labs
+# syntax=docker/dockerfile:1
 
-FROM --platform=$BUILDPLATFORM tonistiigi/xx:1.1.1 AS xx
+ARG GO_VERSION=1.25
+ARG ALPINE_VERSION=3.23
+ARG XX_VERSION=1.9.0
+
+FROM --platform=$BUILDPLATFORM tonistiigi/xx:${XX_VERSION} AS xx
 
 FROM scratch AS src
 COPY *.go go.* /
 
-FROM --platform=$BUILDPLATFORM golang:1.18-alpine AS build
+FROM --platform=$BUILDPLATFORM golang:${GO_VERSION}-alpine${ALPINE_VERSION} AS build
 COPY --from=xx / /
 RUN apk add clang lld file
 ARG TARGETPLATFORM
